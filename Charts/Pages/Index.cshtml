@@ -1,0 +1,141 @@
+@page
+@using Charts.Services
+@using Charts.Controllers
+@model Charts.Pages.Index
+@inject Buffer<Point> Buffer
+
+@{
+    Layout = null;
+    var labels = Buffer.Select(x => x.Label);
+    var data = Buffer.Select(x => x.Value);
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>KohLantAAAAA</title>
+    <style>
+        /* styles pour les deux rectangles */
+        #chartId {
+            width: 50%;
+            float: left
+        }
+
+        #infosId {
+            width: 50%;
+            float: right;
+            text-align: center;
+        }
+        #bodyId {
+            font-family: "SF Ironside", sans-serif;
+        }
+        #qr-code {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px
+        }
+        #voteId {
+            font-size: 300%;
+            margin: 10%;
+            border: 3px #000;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+            color: #000;
+            border: none;
+            border-radius: 3px;
+            box-shadow: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .button:hover {
+            background-color: red;
+        }
+        .options {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .options li {
+            margin: 15px 20px;
+            font-size: 200%;
+            text-align: center;
+        }
+
+        .options li img {
+            width: 100%;
+            max-width: 350px;
+            border-radius: 4%;
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+    <div id="bodyId">
+        <div id="chartId">
+            <canvas id="myChart"></canvas>
+            <div id="buttonId">
+                <button class="button" onclick="clearScores()">Effacer Scores</button>
+            </div>
+        </div>
+        <div id="infosId">
+            <h1>Pour participer, envoyer un message en scannant le QR Code</h1>
+            <h2>    ou</h2>
+            <h1>au +15550867539 sur WhatsApp</h1>
+
+            <div id="qr-code"></div>
+            <ul class="options">
+                <li>
+                    <img src="nathan.png" alt="Photo de Nathan">
+                    <p>Envoyez <b>1</b> pour Mc(do)2</p>
+                </li>
+                <li>
+                    <img src="gurvan.png" alt="Photo de Gurvan">
+                    <p>Envoyez <b>2</b> pour Gaystap</p>
+                </li>
+            </ul>
+        </div>
+        <script>
+            function clearScores() {
+                localStorage.setItem('nathanScore', "0"); // Met à zéro la variable nathanScore dans le localStorage
+                localStorage.setItem('gurvanScore', "0"); // Met à zéro la variable gurvanScore dans le localStorage
+                const xhr = new XMLHttpRequest(); // Créer un nouvel objet XMLHttpRequest
+                console.log(document.URL);
+                xhr.open('POST', document.URL + "reset", true); // A changer
+                xhr.send(); // Envoyer la requête
+                location.reload(); // Actualise la page
+
+            }
+        </script>
+    </div>
+</body>
+<script src="~/lib/microsoft-signalr/signalr.min.js"></script>
+<script src="~/lib/chartjs/chart.min.js"></script>
+<script defer src="~/index.js"></script>
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+<script>
+    var url = 'https://wa.me/+15550867539?text=' + encodeURIComponent('');
+    new QRCode(document.getElementById('qr-code'), url);
+</script>
+
+<script>
+    function clear() {
+        localStorage.clear()
+        console.log("cleared")
+        reload()
+    }
+</script>
+</html>
