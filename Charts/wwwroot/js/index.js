@@ -1,17 +1,18 @@
 const data = {
     labels: ["Nombres de votes"],
     url : "/chart",
-    datasets: [{
-        label: "Gaystap",
-        data: [0],
-        backgroundColor: [
-            'rgba(250, 237, 39, 1)',
-        ],
-    }, {
+    datasets: [ {
         label: "Mc(do)2",
             data: [0,0],
             backgroundColor: [
-                'rgba(237, 38, 38, 1)',
+                'rgba(230,35,60, 1)',
+            ],
+        },
+        {
+            label: "Gaystap",
+            data: [0],
+            backgroundColor: [
+                'rgba(252,190,0, 1)',
             ],
         }]
 };
@@ -23,6 +24,23 @@ const myChart = new Chart(ctx, {
     options: {
         animation: {
             duration: 0
+        },
+        scales: {
+            x: {
+                display: false,
+                grid: {
+                    display: false
+                }
+            },
+            y: {
+                ticks: {
+                    beginAtZero: true},
+            
+                display: false,
+                grid: {
+                    display: false
+                }
+            }
         }
     }
 });
@@ -56,10 +74,10 @@ connection.onclose(async () => {
 
 connection.on("clear", function () {
     gurvanScore = 0;
-    myChart.data.datasets[0].data[0] = gurvanScore;
+    myChart.data.datasets[1].data[0] = gurvanScore;
     localStorage.setItem('gurvanScore', gurvanScore);
     nathanScore = 0;
-    myChart.data.datasets[1].data[0] = nathanScore;
+    myChart.data.datasets[0].data[0] = nathanScore;
     localStorage.setItem('nathanScore', nathanScore);
     myChart.update();
 });
@@ -67,14 +85,14 @@ connection.on("clear", function () {
 connection.on("addChartData", function (point) {
     if (point.label == "Gurvan") {
         gurvanScore += point.value;
-        myChart.data.datasets[0].data[0] = gurvanScore;
+        myChart.data.datasets[1].data[0] = gurvanScore;
         localStorage.setItem('gurvanScore', gurvanScore);
 
     }
     else if (point.label == "Nathan") {
 
         nathanScore += point.value;
-        myChart.data.datasets[1].data[0] = nathanScore;
+        myChart.data.datasets[0].data[0] = nathanScore;
         localStorage.setItem('nathanScore', nathanScore);
     }
 
