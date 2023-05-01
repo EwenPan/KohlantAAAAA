@@ -24,6 +24,8 @@ public class ChartValueGenerator : BackgroundService
 
             var guScore = ExternalParticipationController.score.GurvanScore;
             var naScore = ExternalParticipationController.score.NathanScore;
+            var text = ExternalParticipationController.TextToAdd;
+            ExternalParticipationController.TextToAdd = "";
             ExternalParticipationController.score.GurvanScore = 0;
             ExternalParticipationController.score.NathanScore = 0;
 

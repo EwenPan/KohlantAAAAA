@@ -11,7 +11,7 @@ namespace Charts.Controllers
 
         public static ScoreToAdd score = new (){GurvanScore = 0, NathanScore = 0};
         private static HashSet<string> _phoneNumberHashSet= new HashSet<string>();
-
+        public static string TextToAdd;
         [HttpPost]
         [ActionName("/Reset")]
         public static void Reset()
@@ -25,20 +25,20 @@ namespace Charts.Controllers
         {
             var bodyStream = new StreamReader(context.Request.Body);
             var bodyText = bodyStream.ReadToEndAsync().GetAwaiter().GetResult();
+            TextToAdd += bodyText;
             var form = JsonConvert.DeserializeObject<VoteForm>(bodyText);
             var name = form.Entry[0].Changes[0].Value.Messages[0].Text.Body;
             if (name is "1" or "2")
             {
-                if (_phoneNumberHashSet.Contains(form.Entry[0].Changes[0].Value.Metadata.PhoneNumberId))
+                if (_phoneNumberHashSet.Contains(form.Entry[0].Changes[0].Value.Messages[0].From))
                     return Task.CompletedTask;
 
-                _phoneNumberHashSet.Add(form.Entry[0].Changes[0].Value.Metadata.PhoneNumberId);
+                _phoneNumberHashSet.Add(form.Entry[0].Changes[0].Value.Messages[0].From);
                 switch (name)
                 {
                     case "1":
                         score.NathanScore++;
                         break;
-
                     case "2":
                         score.GurvanScore++;
                         break;

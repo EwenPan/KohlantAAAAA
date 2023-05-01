@@ -27,20 +27,24 @@
             float: right;
             text-align: center;
         }
+
         #bodyId {
             font-family: "SF Ironside", sans-serif;
         }
+
         #qr-code {
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 20px
         }
+
         #voteId {
             font-size: 300%;
             margin: 10%;
             border: 3px #000;
         }
+
         .button {
             display: inline-block;
             padding: 10px 20px;
@@ -56,9 +60,10 @@
             transition: background-color 0.3s ease-in-out;
         }
 
-        .button:hover {
-            background-color: red;
-        }
+            .button:hover {
+                background-color: red;
+            }
+
         .options {
             list-style: none;
             display: flex;
@@ -66,18 +71,17 @@
             align-items: center;
         }
 
-        .options li {
-            margin: 15px 20px;
-            font-size: 200%;
-            text-align: center;
-        }
+            .options li {
+                margin: 15px 20px;
+                font-size: 200%;
+                text-align: center;
+            }
 
-        .options li img {
-            width: 100%;
-            max-width: 350px;
-            border-radius: 4%;
-        }
-
+                .options li img {
+                    width: 100%;
+                    max-width: 350px;
+                    border-radius: 4%;
+                }
 
     </style>
 
@@ -124,7 +128,7 @@
 </body>
 <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
 <script src="~/lib/chartjs/chart.min.js"></script>
-<script defer src="~/index.js"></script>
+<script defer src="~/js/index.js"></script>
 <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 <script>
     var url = 'https://wa.me/+15550867539?text=' + encodeURIComponent('');
