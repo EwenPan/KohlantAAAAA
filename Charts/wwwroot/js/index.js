@@ -3,7 +3,7 @@ const data = {
     url : "/chart",
     datasets: [ {
         label: "Mc(do)2",
-            data: [0,0],
+            data: [0],
             backgroundColor: [
                 'rgba(230,35,60, 1)',
             ],
@@ -16,12 +16,31 @@ const data = {
             ],
         }]
 };
-
 const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
     type: 'bar',
     data: data,
+    plugins: [ChartDataLabels],
     options: {
+        plugins: {
+            legend: {
+                display: false
+            },
+            datalabels: {
+                labels: {
+                    value: {
+                        anchor: "center",
+                        color: 'black',
+                        clamp: true,
+                        align: "end",
+                        font: {
+                            size: 100,
+                            family: "SF Ironsides"
+                        }
+                    }
+                }
+            }
+        },
         animation: {
             duration: 0
         },
