@@ -14,7 +14,7 @@
 
 <html lang="en">
 <head>
-    <title>KohLantAAAAA</title>
+    <title>Contests</title>
     <style>
         /* styles pour les deux rectangles */
         #chartId {
@@ -60,9 +60,36 @@
             transition: background-color 0.3s ease-in-out;
         }
 
-            .button:hover {
-                background-color: red;
+        .accordion {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+        }
+
+            /* Style pour les titres d'accordéon lorsqu'ils sont survolés */
+            .accordion:hover {
+                background-color: #ccc;
             }
+
+        /* Style pour le contenu de l'accordéon */
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            display: none;
+            overflow: hidden;
+        }
+
+
+        .button:hover {
+            background-color: red;
+        }
 
         .options {
             list-style: none;
@@ -87,7 +114,7 @@
 
 </head>
 <body>
-
+    <button type="button"><a asp-page="/Contests">Manage Inventory</a></button>
     <div id="bodyId">
         <div id="chartId">
             <canvas id="myChart"></canvas>
@@ -123,17 +150,77 @@
                 location.reload(); // Actualise la page
 
             }
+
+            function getContestWinner() {
+
+                const request = new XMLHttpRequest();
+
+                // URL de la requête
+                const url = document.URL + "getWinner";
+
+                // Configuration de la requête HTTP GET
+                request.open("GET", url);
+
+                // Ajouter un écouteur d'événement pour la réponse de la requête
+                request.addEventListener("load", function () {
+                    // Vérifie si la réponse est réussie (statut 200)
+                    if (request.status === 200) {
+                        // Analyse le JSON de la réponse
+                        const responseJson = JSON.parse(request.responseText);
+
+                        // Récupère le paramètre "vainqueur" du JSON
+                        const vainqueur = responseJson.vainqueur;
+
+                        // Utilise le paramètre "vainqueur" dans votre code
+                        console.log("Le vainqueur est : " + vainqueur);
+                    } else {
+                        // Affiche un message d'erreur si la réponse a échoué
+                        console.error("Erreur de réponse de la requête.");
+                    }
+                });
+
+                // Envoyer la requête HTTP GET
+                request.send();
+                document.getElementById("winner").innerText = "Vainqueur = " + vainqueur;
+            }
+
         </script>
+    </div>
+    <button class="accordion">Titre de l'accordéon 3</button>
+    <div class="panel">
+        <div id="buttonId">
+            <button class="button" onclick="getContestWinner()">Tirer au sort</button>
+        </div>
+        <div id="winner">Vainqueur = </div>
     </div>
 </body>
 <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
 <script src="~/lib/chartjs/chart.min.js"></script>
-<script defer src="~/js/index.js"></script>
+<script defer src="~/js/home.js"></script>
 <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 <script>
-    var url = 'https://wa.me/+15550867539?text=' + encodeURIComponent('');
+    var url = 'https://wa.me/+15550867539?text=' + encodeURIComponent('metre1');
     new QRCode(document.getElementById('qr-code'), url);
 </script>
+<script>
+    // Récupère tous les boutons d'accordéon
+    var accordions = document.getElementsByClassName("accordion");
+
+    // Ajoute un événement de clic à chaque bouton d'accordéon
+    for (var i = 0; i < accordions.length; i++) {
+        accordions[i].addEventListener("click", function () {
+            // Inverse la visibilité du panneau de contenu associé
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+    }
+</script>
+
 
 <script>
     function clear() {

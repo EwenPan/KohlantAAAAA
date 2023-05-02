@@ -24,8 +24,10 @@ builder.Services.AddHostedService<ChartValueGenerator>();
 
 var app = builder.Build();
 app.MapPost("/vote", ExternalParticipationController.Vote);
-app.MapPost("/reset", ExternalParticipationController.Reset);
+app.MapPost("/resetVote", ExternalParticipationController.ResetVote);
+app.MapPost("/resetContest", ExternalParticipationController.ResetContest);
 app.MapGet("/vote", ExternalParticipationController.ValidateToken);
+app.MapGet("/getWinner", ExternalParticipationController.GetWinner);
 
 app.UseStaticFiles();
 app.MapRazorPages();

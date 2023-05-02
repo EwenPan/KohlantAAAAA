@@ -64,16 +64,16 @@ connection.on("clear", function () {
     myChart.update();
 });
 
-connection.on("addChartData", function (point) {
-    if (point.label == "Gurvan") {
-        gurvanScore += point.value;
+connection.on("addChartData", function (score) {
+    if (score.label == "Gurvan") {
+        gurvanScore = score.value;
         myChart.data.datasets[0].data[0] = gurvanScore;
         localStorage.setItem('gurvanScore', gurvanScore);
 
     }
-    else if (point.label == "Nathan") {
+    else if (score.label == "Nathan") {
 
-        nathanScore += point.value;
+        nathanScore = score.value;
         myChart.data.datasets[1].data[0] = nathanScore;
         localStorage.setItem('nathanScore', nathanScore);
     }
