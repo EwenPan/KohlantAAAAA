@@ -13,30 +13,60 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
 <head>
     <title>KohLantAAAAA</title>
     <style>
+        body   {
+                font-family: "SF Ironsides", sans-serif;
+                background-image: url("background.png");
+                background-size: cover;
+                overflow: hidden;
+                height: 100vh;
+                width: 100vw;
+                
+        }
         /* styles pour les deux rectangles */
         #chartId {
-            width: 50%;
-            float: left
+                    overflow: hidden;
+                    width: 40%;
+                    bottom:  100px;
+                  position: absolute; 
+                  left: 0; 
+                  right: 0; 
+                  margin-left: auto; 
+                  margin-right: auto; 
         }
 
         #infosId {
-            width: 50%;
-            float: right;
-            text-align: center;
-        }
+            background-image: url("sign.png");
+            background-size: contain;
+            overflow: hidden;
+            background-repeat: no-repeat;
+            width: 40%;
+            top:  0;
+          position: absolute; 
+          left: 0; 
+          right: 0; 
+          margin-left: auto; 
+          margin-right: auto; 
+          text-align: center;
+          padding: 35px 40px;
+          display: flex;
+          justify-content: space-between;          
+          align-items: center;
+          background-position: center;
+          box-sizing: border-box;
 
-        #bodyId {
-            font-family: "SF Ironside", sans-serif;
         }
 
         #qr-code {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 20px
+            padding: 10px;
+            border-radius: 10px;
+            background-color: white;
         }
 
         #voteId {
@@ -83,51 +113,45 @@
                     border-radius: 4%;
                 }
 
+    
+    
     </style>
 
 </head>
 <body>
 
-    <div id="bodyId">
-        <div id="chartId">
-            <canvas id="myChart"></canvas>
-            <div id="buttonId">
-                <button class="button" onclick="clearScores()">Effacer Scores</button>
-            </div>
+<div id="bodyId">
+    <div id="chartId">
+        <canvas id="myChart"></canvas>
+        <div id="buttonId">
+            <button class="button" onclick="clearScores()">Effacer Scores</button>
         </div>
-        <div id="infosId">
-            <h1>Pour participer, envoyer un message en scannant le QR Code</h1>
-            <h2>    ou</h2>
-            <h1>au +15550867539 sur WhatsApp</h1>
-
-            <div id="qr-code"></div>
-            <ul class="options">
-                <li>
-                    <img src="nathan.png" alt="Photo de Nathan">
-                    <p>Envoyez <b>1</b> pour Mc(do)2</p>
-                </li>
-                <li>
-                    <img src="gurvan.png" alt="Photo de Gurvan">
-                    <p>Envoyez <b>2</b> pour Gaystap</p>
-                </li>
-            </ul>
+    </div>
+    <div id="infosId">
+        <div id="infos-content">
+            <h1>Pour participer, envoyer un message en scannant le QR Code <br/> ou
+                 au <br>+15550867539 sur WhatsApp</h1>
         </div>
-        <script>
+        <div id="qr-code"></div>
+      
+    </div>
+    <script>
             function clearScores() {
-                localStorage.setItem('nathanScore', "0"); // Met à zéro la variable nathanScore dans le localStorage
-                localStorage.setItem('gurvanScore', "0"); // Met à zéro la variable gurvanScore dans le localStorage
-                const xhr = new XMLHttpRequest(); // Créer un nouvel objet XMLHttpRequest
+                localStorage.setItem('nathanScore', "0"); // Met ï¿½ zï¿½ro la variable nathanScore dans le localStorage
+                localStorage.setItem('gurvanScore', "0"); // Met ï¿½ zï¿½ro la variable gurvanScore dans le localStorage
+                const xhr = new XMLHttpRequest(); // Crï¿½er un nouvel objet XMLHttpRequest
                 console.log(document.URL);
                 xhr.open('POST', document.URL + "reset", true); // A changer
-                xhr.send(); // Envoyer la requête
+                xhr.send(); // Envoyer la requï¿½te
                 location.reload(); // Actualise la page
 
             }
         </script>
-    </div>
+</div>
 </body>
 <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
 <script src="~/lib/chartjs/chart.min.js"></script>
+<script src="~/lib/chartjs-plugin-datalabel@2.0.0/chartjs-plugin-datalabels.min.js"></script>
 <script defer src="~/js/index.js"></script>
 <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 <script>

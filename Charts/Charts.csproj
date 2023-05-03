@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <Folder Include="Pages\Clear\" />
+      <Folder Include="wwwroot\lib\chartjs-plugin-datalabel@2.0.0\" />
     </ItemGroup>
 
 </Project>
