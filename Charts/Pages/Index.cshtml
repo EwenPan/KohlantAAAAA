@@ -145,61 +145,64 @@
                 localStorage.setItem('gurvanScore', "0"); // Met à zéro la variable gurvanScore dans le localStorage
                 const xhr = new XMLHttpRequest(); // Créer un nouvel objet XMLHttpRequest
                 console.log(document.URL);
-                xhr.open('POST', document.URL + "reset", true); // A changer
+                xhr.open('POST', document.URL + "resetVote", true); // A changer
                 xhr.send(); // Envoyer la requête
-                location.reload(); // Actualise la page
+                //location.reload(); // Actualise la page
 
             }
 
-            function getContestWinner() {
+            function getContestWinner(contest) {
 
-                const request = new XMLHttpRequest();
-
-                // URL de la requête
-                const url = document.URL + "getWinner";
-
-                // Configuration de la requête HTTP GET
-                request.open("GET", url);
-
-                // Ajouter un écouteur d'événement pour la réponse de la requête
-                request.addEventListener("load", function () {
-                    // Vérifie si la réponse est réussie (statut 200)
-                    if (request.status === 200) {
-                        // Analyse le JSON de la réponse
-                        const responseJson = JSON.parse(request.responseText);
-
-                        // Récupère le paramètre "vainqueur" du JSON
-                        const vainqueur = responseJson.vainqueur;
-
-                        // Utilise le paramètre "vainqueur" dans votre code
-                        console.log("Le vainqueur est : " + vainqueur);
-                    } else {
-                        // Affiche un message d'erreur si la réponse a échoué
-                        console.error("Erreur de réponse de la requête.");
+                var xhr = new XMLHttpRequest();
+                var winner = ""
+                const url = document.URL + "getWinner" + "?contest="+contest;
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            var winnerDiv = document.getElementById("winner");
+                            winnerDiv.innerHTML = "Le gagnant est " + xhr.responseText;
+                        } else {
+                            console.error('Erreur lors de la requête : ' + xhr.status);
+                        }
                     }
-                });
+                };
+                xhr.open('GET', url);
+                xhr.send();
+                console.log(xhr.responseText);
 
-                // Envoyer la requête HTTP GET
-                request.send();
-                document.getElementById("winner").innerText = "Vainqueur = " + vainqueur;
+
             }
 
         </script>
     </div>
-    <button class="accordion">Titre de l'accordéon 3</button>
-    <div class="panel">
-        <div id="buttonId">
-            <button class="button" onclick="getContestWinner()">Tirer au sort</button>
-        </div>
-        <div id="winner">Vainqueur = </div>
+    <button class="accordion">Concours n°1</button>
+<div class="panel">
+    <div id="buttonId">
+        <button class="button" onclick="getContestWinner('metre1')">Tirer au sort</button>
     </div>
+    <div id="winner"></div>
+</div>
+<button class="accordion">Concours n°2</button>
+<div class="panel">
+    <div id="buttonId">
+        <button class="button" onclick="getContestWinner('metre2')">Tirer au sort</button>
+    </div>
+    <div id="winner"></div>
+</div>
+<button class="accordion">Concours n°3</button>
+<div class="panel">
+    <div id="buttonId">
+        <button class="button" onclick="getContestWinner('metre3')">Tirer au sort</button>
+    </div>
+    <div id="winner"></div>
+</div>
 </body>
 <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
 <script src="~/lib/chartjs/chart.min.js"></script>
 <script defer src="~/js/home.js"></script>
 <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 <script>
-    var url = 'https://wa.me/+15550867539?text=' + encodeURIComponent('metre1');
+    var url = 'https://wa.me/+15550867539?text=' + encodeURIComponent('metre3');
     new QRCode(document.getElementById('qr-code'), url);
 </script>
 <script>

@@ -8,10 +8,10 @@ namespace Charts.Controllers
     {
 
         public static Score score = new() { GurvanScore = 0, NathanScore = 0 };
-        private static Dictionary<string, HashSet<string>> _registrationByFunction = new() { { "1", new HashSet<string>() { "stan", "ewen" } }, { "vote", new HashSet<string>() } };
+        private static Dictionary<string, HashSet<string>> _registrationByFunction = new() { { "vote", new HashSet<string>() }, {"metre1", new HashSet<string>()}, { "metre2", new HashSet<string>() } , { "metre3", new HashSet<string>() } };
         public static string TextToAdd;
         [HttpPost]
-        [ActionName("/resetVote")]
+        [ActionName("resetVote")]
         public static void ResetVote()
         {
             _registrationByFunction["vote"] = new HashSet<string>();
@@ -35,35 +35,31 @@ namespace Charts.Controllers
             var bodyText = bodyStream.ReadToEndAsync().GetAwaiter().GetResult();
             TextToAdd += bodyText;
             var form = JsonConvert.DeserializeObject<VoteForm>(bodyText);
-            var body = form.Entry[0].Changes[0].Value.Messages[0].Text.Body;
+            var body = form.Entry[0].Changes[0].Value.Messages[0].Text.Body.ToLower();
             var num = form.Entry[0].Changes[0].Value.Messages[0].From;
-            var stringArray = body.Split(" ");
-            if (stringArray.Length != 2)
-                return Task.CompletedTask;
-            var (function, argument) = (stringArray[0].ToLower(), stringArray[1].ToLower());
-            switch (function)
+            switch (body)
             {
-                case "vote":
-                    AddVote(argument, num);
+                case "1" or "2":
+                    AddVote(body, num);
                     break;
-                case "concours":
-                    AddContestParticipation(function, num);
+                case "metre1" or "metre2" or "metre3":
+                    AddContestParticipation(body,num);
                     break;
             }
             return Task.CompletedTask;
         }
 
-        private static void AddContestParticipation(string function, string num)
+        private static void AddContestParticipation(string contest, string num)
         {
-            if (_registrationByFunction.ContainsKey(function))
+            if (_registrationByFunction.ContainsKey(contest))
             {
-                _registrationByFunction[function].Add(num);
+                _registrationByFunction[contest].Add(num);
             }
         }
 
         public static void AddVote(string vote, string num)
         {
-            if (_registrationByFunction[vote].Contains(num))
+            if (_registrationByFunction["vote"].Contains(num))
                 return;
             if (vote is not ("1" or "2"))
                 return;
